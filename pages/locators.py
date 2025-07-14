@@ -16,4 +16,7 @@ class ItemPageLocators:
     ADDED_TO_BASKET_NAME = (By.CSS_SELECTOR, '#messages :nth-child(1) .alertinner strong')
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, '#messages :nth-child(1).alert-success')
 
+class BasePageLocators:
+    LOGIN_LINK = (By.CSS_SELECTOR, '#login_link')
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
 

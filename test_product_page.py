@@ -40,3 +40,15 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.add_to_basket()
     assert page.is_not_element_present(*ItemPageLocators.SUCCESS_MESSAGE), "Success message must disappear."
 
+@pytest.mark.login
+def test_guest_should_see_login_link_on_product_page(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_login_link()
+
+@pytest.mark.login
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_login_page()
+    assert '/login' in page.browser.current_url, 'Login page should be opened.'
