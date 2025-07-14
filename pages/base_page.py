@@ -1,4 +1,7 @@
+from selenium.common import NoAlertPresentException
 from selenium.common.exceptions import NoSuchElementException
+from math import log, sin
+
 
 class BasePage:
     def __init__(self, browser, url, timeout=10):
@@ -15,4 +18,3 @@ class BasePage:
         except NoSuchElementException as e:
             return False
         return True
-
