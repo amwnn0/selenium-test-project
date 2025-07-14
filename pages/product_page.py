@@ -3,7 +3,7 @@ from .locators import ItemPageLocators
 from selenium.common.exceptions import NoAlertPresentException, NoSuchElementException
 from math import sin, log
 
-class ItemPage(BasePage):
+class ProductPage(BasePage):
     def add_to_basket(self):
         try:
             button = self.browser.find_element(*ItemPageLocators.ADDTOBASKET_BUTTON)

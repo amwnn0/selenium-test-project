@@ -1,6 +1,8 @@
 from time import sleep
 import pytest
-from pages.product_page import ItemPage
+
+from pages.locators import ItemPageLocators
+from pages.product_page import ProductPage
 
 # n = (0-9), 7 xfail
 urls = [f'?promo=offer{n}' if n!=7 else pytest.param(7, marks=pytest.mark.xfail) for n in range(10)]
@@ -8,9 +10,33 @@ urls = [f'?promo=offer{n}' if n!=7 else pytest.param(7, marks=pytest.mark.xfail)
 @pytest.mark.parametrize('url', urls)
 def test_guest_can_add_product_to_basket(browser, url):
     link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/' + url
-    page = ItemPage(browser, link, timeout=20)
+    page = ProductPage(browser, link, timeout=20)
     page.open()
     page.add_to_basket()
     page.solve_quiz_and_get_code()
     page.look_for_item_in_basket_message()
     page.is_basket_price_valid()
+
+
+link = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/'
+
+@pytest.mark.negative
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, link, timeout=0)
+    page.open()
+    page.add_to_basket()
+    assert page.is_not_element_present(*ItemPageLocators.SUCCESS_MESSAGE), "Success message should not be present after adding to basket."
+
+@pytest.mark.negative
+def test_guest_cant_see_success_message(browser):
+    page = ProductPage(browser, link, timeout=0)
+    page.open()
+    assert page.is_not_element_present(*ItemPageLocators.SUCCESS_MESSAGE), "Success message should not be present."
+
+@pytest.mark.negative
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, link, timeout=0)
+    page.open()
+    page.add_to_basket()
+    assert page.is_not_element_present(*ItemPageLocators.SUCCESS_MESSAGE), "Success message must disappear."
+

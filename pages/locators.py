@@ -14,3 +14,6 @@ class ItemPageLocators:
     BASKET_PRICE = (By.CSS_SELECTOR, '.btn-cart')
     ITEM_NAME = (By.CSS_SELECTOR, '.product_main h1')
     ADDED_TO_BASKET_NAME = (By.CSS_SELECTOR, '#messages :nth-child(1) .alertinner strong')
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, '#messages :nth-child(1).alert-success')
+
+
