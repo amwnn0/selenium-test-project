@@ -1,6 +1,4 @@
-from selenium.common import NoAlertPresentException
 from selenium.common.exceptions import NoSuchElementException
-from math import log, sin
 
 
 class BasePage:
