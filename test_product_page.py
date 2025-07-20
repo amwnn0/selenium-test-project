@@ -2,6 +2,7 @@ from time import sleep
 import pytest
 
 from pages.locators import ItemPageLocators
+from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 from pages.basket_page import BasketPage
 
@@ -66,3 +67,28 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = BasketPage(browser, link)
     page.basket_should_be_empty()
     page.should_be_basket_is_empty_text()
+
+@pytest.mark.register_user
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(autouse=True, scope='function')
+    def setup(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/accounts/login/'
+        page = LoginPage(browser, link)
+        page.open()
+        email = page.generate_email()
+        page.register_new_user(email, 'Password12345.')
+        page.should_be_authorized_user()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link, timeout=20)
+        page.open()
+        page.add_to_basket()
+        page.look_for_item_in_basket_message()
+        page.is_basket_price_valid()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link, timeout=0)
+        page.open()
+        assert page.is_not_element_present(*ItemPageLocators.SUCCESS_MESSAGE), "Success message should not be present."
