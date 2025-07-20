@@ -1,3 +1,6 @@
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from .base_page import BasePage
 from .locators import ItemPageLocators
 from selenium.common.exceptions import NoAlertPresentException, NoSuchElementException
@@ -12,6 +15,7 @@ class ProductPage(BasePage):
             print('Add to basket button should be present')
 
     def solve_quiz_and_get_code(self):
+        WebDriverWait(self.browser, 10).until(EC.alert_is_present())
         alert = self.browser.switch_to.alert
         x = alert.text.split(' ')[2]
         answer = str(log(abs((12 * sin(float(x))))))
