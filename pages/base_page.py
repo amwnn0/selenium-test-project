@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
 
+
 class BasePage:
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -28,7 +29,7 @@ class BasePage:
 
     def is_disappeared(self, how, what, timeout=4):
         try:
-            WebDriverWait(self.browser, timeout, 1, TimeoutException).\
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
                 until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException as e:
             return False
@@ -48,4 +49,8 @@ class BasePage:
         self.browser.find_element(*BasePageLocators.BASKET_LINK).click()
 
     def should_be_authorized_user(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented, probably unauthorised user"
+        assert self.is_element_present(
+            *BasePageLocators.USER_ICON), "User icon is not presented, probably unauthorised user"
+
+    def should_be_login_page(self):
+        assert '/login' in self.browser.current_url, 'Login page should be opened.'

@@ -6,6 +6,7 @@ from .locators import ItemPageLocators
 from selenium.common.exceptions import NoAlertPresentException, NoSuchElementException
 from math import sin, log
 
+
 class ProductPage(BasePage):
     def add_to_basket(self):
         try:
@@ -38,3 +39,7 @@ class ProductPage(BasePage):
         item_price = self.browser.find_element(*ItemPageLocators.ITEM_PRICE).text
         basket_price = self.browser.find_element(*ItemPageLocators.BASKET_PRICE).text
         assert item_price == basket_price, 'Basket price does not match item price'
+
+    def success_message_is_not_present(self):
+        assert self.browser.is_not_element_present(
+            *ItemPageLocators.SUCCESS_MESSAGE), "Success message should not be present"
